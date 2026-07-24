@@ -71,6 +71,6 @@ rules and limits matches to structured scopes such as HTTP headers.
 ### Task 5: Publish
 
 - [x] Inspect the complete diff and ensure the worktree contains only this task.
-- [ ] Commit the verified project and create/push a public GitHub repository
+- [x] Commit the verified project and create/push a public GitHub repository
       using authenticated `gh`.
-- [ ] Verify public visibility, remote/local commit parity, and clean worktree.
+- [x] Verify public visibility, remote/local commit parity, and clean worktree.
