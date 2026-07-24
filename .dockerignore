@@ -1,0 +1,12 @@
+.git
+.github
+docs
+.dockerignore
+Dockerfile
+compose.yaml
+Makefile
+README.md
+examples
+rules
+**/*_test.go
+bannerfp

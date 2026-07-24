@@ -1,0 +1,70 @@
+name: bannerfp
+
+x-security: &security
+  read_only: true
+  cap_drop:
+    - ALL
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  server:
+    <<: *security
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bannerfp:local
+    pull_policy: build
+    command:
+      - serve
+      - --addr
+      - :8080
+      - --rules
+      - /config/rules.json
+    user: "65532:65532"
+    volumes:
+      - type: bind
+        source: ./rules/default.json
+        target: /config/rules.json
+        read_only: true
+    networks:
+      - backend
+    healthcheck:
+      test:
+        - CMD
+        - /bannerfp
+        - healthcheck
+        - --url
+        - http://127.0.0.1:8080/health
+      interval: 2s
+      timeout: 2s
+      retries: 10
+      start_period: 2s
+    restart: unless-stopped
+
+  client:
+    <<: *security
+    image: bannerfp:local
+    pull_policy: never
+    command:
+      - client
+      - --server
+      - http://server:8080
+      - --input
+      - /data/input.json
+    user: "65532:65532"
+    volumes:
+      - type: bind
+        source: ./examples/input.json
+        target: /data/input.json
+        read_only: true
+    networks:
+      - backend
+    depends_on:
+      server:
+        condition: service_healthy
+    restart: "no"
+
+networks:
+  backend:
+    internal: true

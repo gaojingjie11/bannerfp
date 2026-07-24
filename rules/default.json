@@ -1,0 +1,177 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "ssh-openssh-windows",
+      "scope": "first_line",
+      "pattern": "(?i)^SSH-(?:1\\.99|2\\.0)-OpenSSH_for_(?P<os>Windows)_(?P<version>[0-9][A-Za-z0-9._+-]*)",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "confidence": 0.95
+    },
+    {
+      "id": "ssh-openssh",
+      "scope": "first_line",
+      "pattern": "(?i)^SSH-(?:1\\.99|2\\.0)-OpenSSH[_-](?P<version>[0-9][A-Za-z0-9._+-]*)(?:[ \\t]+(?P<os>Ubuntu|Debian|FreeBSD|Raspbian|Alpine|CentOS|Fedora|Red[ \\t]+Hat)[A-Za-z0-9._+-]*)?",
+      "protocol": "SSH",
+      "product": "OpenSSH",
+      "confidence": 0.95
+    },
+    {
+      "id": "ssh-dropbear",
+      "scope": "first_line",
+      "pattern": "(?i)^SSH-(?:1\\.99|2\\.0)-dropbear[_-](?P<version>[0-9][A-Za-z0-9._+-]*)",
+      "protocol": "SSH",
+      "product": "Dropbear",
+      "confidence": 0.92
+    },
+    {
+      "id": "http-openresty",
+      "scope": "http_headers",
+      "pattern": "(?mi)^Server[ \\t]*:[ \\t]*openresty(?:/(?P<version>[0-9][A-Za-z0-9._+-]*))?(?:[ \\t]*\\((?P<os>[^)\\r\\n]+)\\))?",
+      "protocol": "HTTP",
+      "product": "OpenResty",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-nginx",
+      "scope": "http_headers",
+      "pattern": "(?mi)^Server[ \\t]*:[ \\t]*nginx(?:/(?P<version>[0-9][A-Za-z0-9._+-]*))?(?:[ \\t]*\\((?P<os>[^)\\r\\n]+)\\))?",
+      "protocol": "HTTP",
+      "product": "nginx",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-apache",
+      "scope": "http_headers",
+      "pattern": "(?mi)^Server[ \\t]*:[ \\t]*Apache(?:/(?P<version>[0-9][A-Za-z0-9._+-]*))?(?:[ \\t]*\\((?P<os>[^)\\r\\n]+)\\))?",
+      "protocol": "HTTP",
+      "product": "Apache",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-jetty",
+      "scope": "http_headers",
+      "pattern": "(?mi)^Server[ \\t]*:[ \\t]*Jetty(?:/|\\()?(?P<version>[0-9][A-Za-z0-9._+-]*)?",
+      "protocol": "HTTP",
+      "product": "Jetty",
+      "confidence": 0.85
+    },
+    {
+      "id": "http-iis",
+      "scope": "http_headers",
+      "pattern": "(?mi)^Server[ \\t]*:[ \\t]*Microsoft-IIS(?:/(?P<version>[0-9][A-Za-z0-9._+-]*))?",
+      "protocol": "HTTP",
+      "product": "Microsoft-IIS",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-lighttpd",
+      "scope": "http_headers",
+      "pattern": "(?mi)^Server[ \\t]*:[ \\t]*lighttpd(?:/(?P<version>[0-9][A-Za-z0-9._+-]*))?",
+      "protocol": "HTTP",
+      "product": "lighttpd",
+      "confidence": 0.9
+    },
+    {
+      "id": "http-caddy",
+      "scope": "http_headers",
+      "pattern": "(?mi)^Server[ \\t]*:[ \\t]*Caddy(?:/(?P<version>[0-9][A-Za-z0-9._+-]*))?",
+      "protocol": "HTTP",
+      "product": "Caddy",
+      "confidence": 0.85
+    },
+    {
+      "id": "mysql-mariadb-handshake",
+      "scope": "banner",
+      "pattern": "(?is)^.{3}\\x00\\x0a(?:5\\.5\\.5-)?(?P<version>[0-9]+(?:\\.[0-9]+){1,3})-MariaDB(?:-[^\\x00]*)?\\x00",
+      "protocol": "MySQL",
+      "product": "MariaDB",
+      "confidence": 0.9
+    },
+    {
+      "id": "mysql-handshake",
+      "scope": "banner",
+      "pattern": "(?s)^.{3}\\x00\\x0a(?P<version>[0-9]+(?:\\.[0-9]+){1,3})(?:[-+][A-Za-z0-9._]+)?\\x00",
+      "protocol": "MySQL",
+      "product": "MySQL",
+      "confidence": 0.9
+    },
+    {
+      "id": "redis-info",
+      "scope": "banner",
+      "pattern": "(?mis)^(?:\\$[0-9]+\\r?\\n)?# Server\\r?\\n(?:[^\\r\\n]*\\r?\\n)*?redis_version[ \\t]*:[ \\t]*(?P<version>[0-9]+(?:\\.[0-9]+){1,3})",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.92
+    },
+    {
+      "id": "redis-response",
+      "scope": "first_line",
+      "pattern": "(?i)^(?:\\+PONG|-NOAUTH[ \\t]+Authentication required\\.?|-(?:WRONGPASS|DENIED|MISCONF|READONLY|BUSY|LOADING|MASTERDOWN|CLUSTERDOWN)\\b|-ERR[ \\t]+(?:wrong number of arguments|unknown command|operation not permitted|AUTH))",
+      "protocol": "Redis",
+      "product": "Redis",
+      "confidence": 0.7
+    },
+    {
+      "id": "ftp-proftpd",
+      "scope": "first_line",
+      "pattern": "(?i)^220[^\\r\\n]*?\\bProFTPD(?:[ /-]+(?P<version>[0-9]+(?:\\.[0-9]+){1,3}[A-Za-z0-9._+-]*))?",
+      "protocol": "FTP",
+      "product": "ProFTPD",
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-vsftpd",
+      "scope": "first_line",
+      "pattern": "(?i)^220[^\\r\\n]*?\\bvsFTPd(?:[ /-]+(?P<version>[0-9]+(?:\\.[0-9]+){1,3}[A-Za-z0-9._+-]*))?",
+      "protocol": "FTP",
+      "product": "vsFTPd",
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-pureftpd",
+      "scope": "first_line",
+      "pattern": "(?i)^220[^\\r\\n]*?\\bPure-FTPd(?:[ /-]+(?P<version>[0-9]+(?:\\.[0-9]+){1,3}[A-Za-z0-9._+-]*))?",
+      "protocol": "FTP",
+      "product": "Pure-FTPd",
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-filezilla",
+      "scope": "first_line",
+      "pattern": "(?i)^220[^\\r\\n]*?\\bFileZilla(?:[ \\t]+Server)?(?:[ /v-]+(?P<version>[0-9]+(?:\\.[0-9]+){1,3}[A-Za-z0-9._+-]*))?",
+      "protocol": "FTP",
+      "product": "FileZilla Server",
+      "confidence": 0.9
+    },
+    {
+      "id": "ftp-generic",
+      "scope": "first_line",
+      "pattern": "(?i)^220(?:[ -])[^\\r\\n]*\\bFTP(?:d|[ \\t]+Server|[ \\t]+Service)?\\b",
+      "protocol": "FTP",
+      "confidence": 0.65
+    },
+    {
+      "id": "ssh-generic",
+      "scope": "first_line",
+      "pattern": "(?i)^SSH-(?:1\\.99|2\\.0)-[A-Za-z0-9]",
+      "protocol": "SSH",
+      "confidence": 0.72
+    },
+    {
+      "id": "http-generic",
+      "scope": "first_line",
+      "pattern": "(?i)^HTTP/[0-9]+(?:\\.[0-9]+)?[ \\t]+[0-9]{3}(?:[ \\t]|$)",
+      "protocol": "HTTP",
+      "confidence": 0.7
+    },
+    {
+      "id": "tls-record",
+      "scope": "banner",
+      "pattern": "(?s)^\\x16\\x03[\\x00-\\x04].{2}",
+      "protocol": "TLS",
+      "confidence": 0.65
+    }
+  ]
+}
